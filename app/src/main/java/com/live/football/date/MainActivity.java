@@ -33,19 +33,32 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static Date getCurrentUtcTime() throws ParseException {  // handling ParseException
+    public static int getCurrentUtcTime() throws ParseException {  // handling ParseException
         // create an instance of the SimpleDateFormat class
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         // set UTC time zone by using SimpleDateFormat class
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT+5"));
         //create another instance of the SimpleDateFormat class for local date format
-        SimpleDateFormat ldf = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss");
+        SimpleDateFormat ldf = new SimpleDateFormat("yyyyMMdd");
         // declare and initialize a date variable which we return to the main method
         Date d1 = null;
+        String d21 = null;
+        String d2 = "0";
+        int d3 = 0;
+        int month = 0;
+        int date = 0;
+        int year = 0;
         // use try catch block to parse date in UTC time zone
         try {
             // parsing date using SimpleDateFormat class
             d1 = ldf.parse(sdf.format(new Date()));
+            d21 = sdf.format(new Date());
+            String saal = d21.substring(0, 4);
+            year = Integer.parseInt(saal);
+            date = d1.getDate();
+            month = d1.getMonth() + 1;
+            d2 = year + "" + month + "" + date;
+            d3 = Integer.parseInt(d2);
         }
         // catch block for handling ParseException
         catch (java.text.ParseException e) {
@@ -54,6 +67,6 @@ public class MainActivity extends AppCompatActivity {
             System.out.println(e.getMessage());
         }
         // pass UTC date to main method.
-        return d1;
+        return d3;
     }
 }
