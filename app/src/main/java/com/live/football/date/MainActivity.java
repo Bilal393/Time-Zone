@@ -1,72 +1,69 @@
 package com.live.football.date;
 
-import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Bundle;
-import android.widget.TextView;
+import android.content.Context;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class MainActivity extends AppCompatActivity {
-    TextView date, UTC;
+public class MainActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        date = findViewById(R.id.date);
-        UTC = findViewById(R.id.UTC);
-        try {
-            date.setText("IST Time is:" + new Date());
-            UTC.setText("UTC Time is: " + getCurrentUtcTime());
-            // print current time zone
-//            System.out.println("IST Time is:" + new Date());
-//            System.out.println("UTC Time is: " + getCurrentUtcTime());
-        }
-        // for handling parsing errors and exceptions
-        catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
 
-    public static int getCurrentUtcTime() throws ParseException {  // handling ParseException
-        // create an instance of the SimpleDateFormat class
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        // set UTC time zone by using SimpleDateFormat class
+    public static int getCurrentDate(Context context) throws ParseException {  // handling ParseException
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss");
         sdf.setTimeZone(TimeZone.getTimeZone("GMT+5"));
-        //create another instance of the SimpleDateFormat class for local date format
-        SimpleDateFormat ldf = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat ldf = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss");
+
         // declare and initialize a date variable which we return to the main method
-        Date d1 = null;
-        String d21 = null;
-        String d2 = "0";
-        int d3 = 0;
+        Date date = null;
+        String date2 = null;
+        int CurrentDate = 0;
         int month = 0;
-        int date = 0;
+        int day = 0;
         int year = 0;
+        String time = "0";
         // use try catch block to parse date in UTC time zone
         try {
             // parsing date using SimpleDateFormat class
-            d1 = ldf.parse(sdf.format(new Date()));
-            d21 = sdf.format(new Date());
-            String saal = d21.substring(0, 4);
+            date = ldf.parse(sdf.format(new Date()));
+            date2 = sdf.format(new Date());
+            String saal = date2.substring(0, 4);
             year = Integer.parseInt(saal);
-            date = d1.getDate();
-            month = d1.getMonth() + 1;
-            d2 = year + "" + month + "" + date;
-            d3 = Integer.parseInt(d2);
+            month = date.getMonth() + 1;
+            day = date.getDate();
+            CurrentDate = Integer.parseInt(year + "" + month + "" + day);
+
         }
         // catch block for handling ParseException
         catch (java.text.ParseException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            System.out.println(e.getMessage());
+            Toast.makeText(context, "Error to get Current Date", Toast.LENGTH_SHORT).show();
         }
         // pass UTC date to main method.
-        return d3;
+        return CurrentDate;
+    }
+
+    public static String getTime(Context context) throws ParseException {
+        Date date = null;
+        String time = "0";
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss");
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT+5"));
+            SimpleDateFormat ldf = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss");
+            int hour = 0;
+            int min = 0;
+            date = ldf.parse(sdf.format(new Date()));
+            hour = date.getHours();
+            min = date.getMinutes();
+            time = hour + "" + min;
+        } catch (Exception e) {
+            Toast.makeText(context, "Error to get Time", Toast.LENGTH_SHORT).show();
+        }
+
+        return time;
     }
 }
