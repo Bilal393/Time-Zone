@@ -21,8 +21,8 @@ public class MainActivity {
         Date date = null;
         String date2 = null;
         int CurrentDate = 0;
-        int month = 0;
-        int day = 0;
+        String month = "0";
+        String day = "0";
         int year = 0;
         String time = "0";
         // use try catch block to parse date in UTC time zone
@@ -32,8 +32,12 @@ public class MainActivity {
             date2 = sdf.format(new Date());
             String saal = date2.substring(0, 4);
             year = Integer.parseInt(saal);
-            month = date.getMonth() + 1;
-            day = date.getDate();
+            month = date.getMonth() + 1 + "";
+            if (date.getMonth() + 1 < 10)
+                month = "0" + (date.getMonth() + 1);
+            day = date.getDate() + "";
+            if (date.getDate() < 10)
+                day = "0" + (date.getDate());
             CurrentDate = Integer.parseInt(year + "" + month + "" + day);
 
         }
@@ -54,11 +58,17 @@ public class MainActivity {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss");
             sdf.setTimeZone(TimeZone.getTimeZone("GMT+5"));
             SimpleDateFormat ldf = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss");
-            int hour = 0;
-            int min = 0;
+            String hour = "0";
+            String min = "0";
             date = ldf.parse(sdf.format(new Date()));
-            hour = date.getHours();
-            min = date.getMinutes();
+            hour = date.getHours() + "";
+            if (date.getHours()<10){
+                hour = "0" + (date.getHours());
+            }
+            min = date.getMinutes() + "";
+            if (date.getMinutes()<10){
+                min = "0" + (date.getMinutes());
+            }
             time = hour + "" + min;
         } catch (Exception e) {
             Toast.makeText(context, "Error to get Time", Toast.LENGTH_SHORT).show();
